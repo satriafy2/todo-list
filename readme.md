@@ -11,7 +11,7 @@ This is a mini project API to create to-do list and sub list.
 ```
 go mod tidy
 ```
-3. After installing dependencies, rename `.env.example` to `.env` and modify values inside the file
+3. This project use auto migration, so make sure you create database beforehand to avoid migration failure. Then rename `.env.example` to `.env` and modify values inside the file to configure database connection
 4. Run project using the following command
 ```
 go run main.go
