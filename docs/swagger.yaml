@@ -1,0 +1,140 @@
+basePath: /
+definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  handlers.CreateTodoRequest:
+    properties:
+      description:
+        type: string
+      parent_id:
+        type: integer
+      title:
+        type: string
+    type: object
+  handlers.UpdateTodoRequest:
+    properties:
+      description:
+        type: string
+      parent_id:
+        type: integer
+      title:
+        type: string
+    type: object
+  model.Todo:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      file_url:
+        type: string
+      id:
+        type: integer
+      parent_id:
+        type: integer
+      title:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+host: localhost:1323
+info:
+  contact: {}
+  description: This is a to-do list mini project.
+  termsOfService: http://swagger.io/terms/
+  title: To-Do List API
+  version: "1.0"
+paths:
+  /todo:
+    get:
+      consumes:
+      - '*/*'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Todo'
+            type: array
+      summary: Get all todo list
+      tags:
+      - Todo
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Create Todo Body, include parent_id field to create sub todo
+          list
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateTodoRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Todo'
+      summary: Create to-do list
+      tags:
+      - Todo
+  /todo/{id}:
+    delete:
+      consumes:
+      - '*/*'
+      produces:
+      - text/plain
+      responses:
+        "202":
+          description: Accepted
+      summary: Delete to-do
+      tags:
+      - Todo
+    get:
+      consumes:
+      - '*/*'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Todo'
+            type: array
+      summary: Get single todo
+      tags:
+      - Todo
+    patch:
+      consumes:
+      - application/json
+      parameters:
+      - description: Update todo request body, id field is required
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateTodoRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Todo'
+      summary: Update to-do
+      tags:
+      - Todo
+swagger: "2.0"
